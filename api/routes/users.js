@@ -1,41 +1,37 @@
+
 const express = require('express');
 
 const User = require('../models/User');
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
-    const user = new User({
-        username: req.body.username,
-        password: req.body.password
-    });
+router.post('/', async (req, res) => {
+    try {
+        const user = new User({
+            username: req.body.username,
+            password: req.body.password
+        });
 
-    user.generateToken();
+        user.generateToken();
+        await user.save();
 
-    user.save()
-        .then(user => res.send({message: 'User registered', user}))
-        .catch(error => res.status(400).send(error))
+        return res.send({message: 'User registered!', user});
+    } catch (e) {
+        return res.status(400).send(e);
+    }
 });
 
 router.post('/sessions', async (req, res) => {
     const user = await User.findOne({username: req.body.username});
-
-    if (!user) {
-        return res.status(400).send({error: 'Username not found'});
-    }
+    if (!user) return res.status(400).send({message: 'Username or Password incorrect!'});
 
     const isMatch = await user.checkPassword(req.body.password);
-
-    if (!isMatch) {
-        return res.status(400).send({error: 'Password is wrong'});
-    }
+    if (!isMatch) return res.status(400).send({message: 'Username or Password incorrect!'});
 
     user.generateToken();
-    
     await user.save();
 
-    return res.send({message: 'Login successfull', user});
-
+    return res.send({message: 'Login successful!', user});
 });
 
 router.delete('/sessions', async (req, res) => {

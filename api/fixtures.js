@@ -23,27 +23,27 @@ const run = async () => {
     );
 
     const artists = await Artist.create(
-        {name: 'Eminem', image: 'artist_eminem.png', user: users[0]._id},
-        {name: 'Rihanna', image: 'artist_rihanna.png', user: users[1]._id},
-        {name: 'Katy Perry', image: 'artist_katy_perry.png', user: users[0]._id},
+        {name: 'Eminem', image: 'artist_eminem.png', isPublished: true, user: users[0]._id},
+        {name: 'Rihanna', image: 'artist_rihanna.png', isPublished: true, user: users[1]._id},
+        {name: 'Katy Perry', image: 'artist_katy_perry.png', isPublished: true, user: users[0]._id},
     );
 
     const albums = await Album.create(
-        {title: 'Encore', artist: artists[0]._id, year: 2004, image: 'album_encore.png', user: users[0]._id},
-        {title: 'Recovery', artist: artists[0]._id, year: 2010, image: 'album_recovery.png', user: users[0]._id},
-        {title: 'Diamonds', artist: artists[1]._id, year: 2014, image: 'album_diamonds.png', user: users[0]._id},
-        {title: 'Loud', artist: artists[1]._id, year: 2008, image: 'album_loud.png', user: users[1]._id},
-        {title: 'Prism', artist: artists[2]._id, year: 2016, image: 'album_prism.png', user: users[1]._id}
+        {title: 'Encore', artist: artists[0]._id, year: 2004, image: 'album_encore.png', isPublished: true, user: users[0]._id},
+        {title: 'Recovery', artist: artists[0]._id, year: 2010, image: 'album_recovery.png', isPublished: true, user: users[0]._id},
+        {title: 'Diamonds', artist: artists[1]._id, year: 2014, image: 'album_diamonds.png', isPublished: true, user: users[0]._id},
+        {title: 'Loud', artist: artists[1]._id, year: 2008, image: 'album_loud.png', isPublished: true, user: users[1]._id},
+        {title: 'Prism', artist: artists[2]._id, year: 2016, image: 'album_prism.png', isPublished: true, user: users[1]._id}
     );
 
     await Track.create(
-        {title: 'Never enough', album: albums[0]._id, duration: '2:39', number: 2, user: users[0]._id},
-        {title: 'Rain man', album: albums[0]._id, duration: '5:10', number: 1, user: users[0]._id},
-        {title: 'On fire', album: albums[0]._id, duration: '3:07', number: 3, user: users[1]._id},
-        {title: 'Not afraid', album: albums[1]._id, duration: '4:08', number: 7, user: users[0]._id},
-        {title: 'Umbrella', album: albums[2]._id, duration: '4:37', number: 5, user: users[1]._id},
-        {title: 'Skin', album: albums[3]._id, duration: '4:12', number: 6, user: users[1]._id},
-        {title: 'Birthday', album: albums[4]._id, duration: '3:21', number: 4, user: users[1]._id},
+        {title: 'Never enough', album: albums[0]._id, duration: '2:39', number: 2, isPublished: true, user: users[0]._id},
+        {title: 'Rain man', album: albums[0]._id, duration: '5:10', number: 1, isPublished: true, user: users[0]._id},
+        {title: 'On fire', album: albums[0]._id, duration: '3:07', number: 3, isPublished: true, user: users[1]._id},
+        {title: 'Not afraid', album: albums[1]._id, duration: '4:08', number: 7, isPublished: true, user: users[0]._id},
+        {title: 'Umbrella', album: albums[2]._id, duration: '4:37', number: 5, isPublished: true, user: users[1]._id},
+        {title: 'Skin', album: albums[3]._id, duration: '4:12', number: 6, isPublished: true, user: users[1]._id},
+        {title: 'Birthday', album: albums[4]._id, duration: '3:21', number: 4, isPublished: true, user: users[1]._id},
     );
 
     await connection.close();
