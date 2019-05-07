@@ -19,35 +19,36 @@ const Routes = ({user}) => {
     return (
         <Switch>
             <Route path="/" exact component={Artists}/>
-            <Route path="/artists/:id" component={Albums}/>
-            <Route path="/albums/:id" component={Tracks}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/register" component={Register}/>
 
             <ProtectedRoute
-                isAllowed={user && user.role === 'user'}
+                isAllowed={user}
                 path="/artists/new"
                 exact
                 component={NewArtist}
             />
             <ProtectedRoute
-                isAllowed={user && user.role === 'user'}
+                isAllowed={user}
                 path="/albums/new"
                 exact
                 component={NewAlbum}
             />
             <ProtectedRoute
-                isAllowed={user && user.role === 'user'}
+                isAllowed={user}
                 path="/tracks/new"
                 exact
                 component={NewTrack}
             />
             <ProtectedRoute
-                isAllowed={user && user.role === 'user'}
+                isAllowed={user && (user.role === 'user' || user.role === 'admin')}
                 path="/track-history"
                 exact
                 component={TrackHistory}
             />
+
+            <Route path="/artists/:id" component={Albums}/>
+            <Route path="/albums/:id" component={Tracks}/>
+            <Route path="/login" component={Login}/>
+            <Route path="/register" component={Register}/>
         </Switch>
     );
 };
