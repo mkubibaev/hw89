@@ -1,12 +1,18 @@
 const express = require('express');
 const auth = require('../middlewares/auth');
+const checkUser = require('../middlewares/checkUser');
+const permit = require('../middlewares/permit');
 
 const Track = require('../models/Track');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', checkUser, async (req, res) => {
     const criteria = {isPublished: true};
+
+    if (req.user && req.user.role === 'admin') {
+        delete criteria.isPublished;
+    }
 
     if (req.query.album) {
         criteria.album = req.query.album;
@@ -42,6 +48,32 @@ router.post('/', auth, async (req, res) => {
 
         await track.save();
         return res.send({message: 'Track added!', track});
+    } catch {
+        return res.sendStatus(400);
+    }
+});
+
+router.delete('/:id', [auth, permit('admin')], async (req, res) => {
+    try {
+        await Track.deleteOne({_id: req.params.id});
+        return res.sendStatus(200);
+    } catch {
+        return res.status(400);
+    }
+});
+
+router.post('/:id/toggle_publish', [auth, permit('admin')], async (req, res) => {
+    try {
+        const track = await Track.findById(req.params.id);
+        
+        if(!track) {
+            return res.sendStatus(404);
+        }
+
+        track.isPublished = !track.isPublished;
+        await track.save();
+
+        return res.send(track);
     } catch {
         return res.sendStatus(400);
     }

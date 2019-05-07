@@ -66,15 +66,30 @@ router.post('/', [auth, upload.single('image')], async (req, res) => {
     }
 });
 
-router.post('/:id/publish', [auth, permit('admin')], async (req, res) => {
-    const artist = await Artist.findById(req.params.id)
-
-    if(!artist) {
-        return res.sendStatus(404);
+router.delete('/:id', [auth, permit('admin')], async (req, res) => {
+    try {
+        await Artist.deleteOne({_id: req.params.id});
+        return res.sendStatus(200);
+    } catch {
+        return res.status(400);
     }
+});
 
-    artist.isPublished = true;
-    return res.send(artist);
+router.post('/:id/toggle_publish', [auth, permit('admin')], async (req, res) => {
+    try {
+        const artist = await Artist.findById(req.params.id);
+        
+        if(!artist) {
+            return res.sendStatus(404);
+        }
+
+        artist.isPublished = !artist.isPublished;
+        await artist.save();
+
+        return res.send(artist);
+    } catch {
+        return res.sendStatus(400);
+    }
 });
 
 module.exports = router;

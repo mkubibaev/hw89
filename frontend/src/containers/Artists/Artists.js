@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {Row} from "reactstrap";
 
-import {fetchArtists} from "../../store/actions/artistsActions";
+import {deleteArtist, fetchArtists, togglePublish} from "../../store/actions/artistsActions";
 import Box from "../../components/UI/Box/Box";
 
 class Artists extends Component {
@@ -24,6 +24,8 @@ class Artists extends Component {
                             isPublished={artist.isPublished}
                             routePath={`/artists/${artist._id}`}
                             user={this.props.user}
+                            onDelete={() => this.props.deleteArtist(artist._id)}
+                            onTogglePublish={() => this.props.togglePublish(artist._id)}
                         />
                     ))}
                 </Row>
@@ -40,7 +42,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchArtists: () => dispatch(fetchArtists())
+    fetchArtists: () => dispatch(fetchArtists()),
+    deleteArtist: id => dispatch(deleteArtist(id)),
+    togglePublish: id => dispatch(togglePublish(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Artists);

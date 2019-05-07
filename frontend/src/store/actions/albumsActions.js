@@ -1,4 +1,5 @@
 import axios from '../../axios-api';
+import {push} from "connected-react-router";
 import {
     ADD_DATA_FAILURE,
     ADD_DATA_REQUEST, ADD_DATA_SUCCESS,
@@ -6,7 +7,6 @@ import {
     FETCH_DATA_FAILURE,
     FETCH_DATA_REQUEST
 } from "./actionTypes";
-import {push} from "connected-react-router";
 
 
 export const fetchDataRequest = () => ({type: FETCH_DATA_REQUEST});
@@ -40,21 +40,44 @@ export const fetchAlbums = artistId => {
 
 export const addAlbum = albumData => {
     return async (dispatch, getState) => {
-        const token = getState().users.user;
+        const token = getState().users.user.token;
         const config = {headers: {'Authorization': token}};
 
-        if (!token) {
-            dispatch(push('/login'));
-        } else {
-            dispatch(addDataRequest());
+        dispatch(addDataRequest());
 
-            try {
-                await axios.post('/albums', albumData, config);
-                dispatch(addDataSuccess());
-                dispatch(push('/'));
-            } catch (e) {
-                dispatch(addDataFailure(e))
-            }
+        try {
+            await axios.post('/albums', albumData, config);
+            dispatch(addDataSuccess());
+            dispatch(push('/'));
+        } catch (e) {
+            dispatch(addDataFailure(e))
+        }
+
+    }
+};
+
+export const deleteAlbum = id => {
+    return async (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+
+        try {
+            axios.delete(`/albums/${id}`, config);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+};
+
+export const togglePublish = id => {
+    return async (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+
+        try {
+            axios.post(`/albums/${id}/toggle_publish`, config);
+        } catch (e) {
+            console.log(e);
         }
     }
 };

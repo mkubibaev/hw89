@@ -33,21 +33,45 @@ export const fetchArtists = () => {
 
 export const addArtist = artistData => {
     return async (dispatch, getState) => {
-        const token = getState().users.user;
+        const token = getState().users.user.token;
         const config = {headers: {'Authorization': token}};
 
-        if (!token) {
-            dispatch(push('/login'));
-        } else {
-            dispatch(addDataRequest());
+        dispatch(addDataRequest());
 
-            try {
-                await axios.post('/artists', artistData, config);
-                dispatch(addDataSuccess());
-                dispatch(push('/'));
-            } catch (e) {
-                dispatch(addDataFailure(e))
-            }
+        try {
+            await axios.post('/artists', artistData, config);
+            dispatch(addDataSuccess());
+            dispatch(push('/'));
+        } catch (e) {
+            dispatch(addDataFailure(e))
+        }
+    }
+};
+
+export const deleteArtist = id => {
+    return async (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+
+        try {
+            await axios.delete(`/artists/${id}`, config);
+            dispatch(fetchArtists());
+        } catch (e) {
+            console.log(e);
+        }
+    }
+};
+
+export const togglePublish = id => {
+    return async (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+
+        try {
+            await axios.post(`/artists/${id}/toggle_publish`, config);
+            dispatch(fetchArtists());
+        } catch (e) {
+            console.log(e);
         }
     }
 };

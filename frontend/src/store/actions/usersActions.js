@@ -60,7 +60,7 @@ export const logoutUser = () => {
         try {
             await axios.delete('/users/sessions', config);
             dispatch(logoutUserSuccess());
-            dispatch(push('/'));
+            dispatch(push('/login'));
         } catch {
             alert('Could not logout!');
         }

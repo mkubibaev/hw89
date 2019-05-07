@@ -34,21 +34,43 @@ export const fetchTracks = albumId => {
 
 export const addTrack = trackData => {
     return async (dispatch, getState) => {
-        const token = getState().users.user;
+        const token = getState().users.user.token;
         const config = {headers: {'Authorization': token}};
 
-        if (!token) {
-            dispatch(push('/login'));
-        } else {
-            dispatch(addDataRequest());
+        dispatch(addDataRequest());
 
-            try {
-                await axios.post('/tracks', trackData, config);
-                dispatch(addDataSuccess());
-                dispatch(push('/'));
-            } catch (e) {
-                dispatch(addDataFailure(e))
-            }
+        try {
+            await axios.post('/tracks', trackData, config);
+            dispatch(addDataSuccess());
+            dispatch(push('/'));
+        } catch (e) {
+            dispatch(addDataFailure(e))
+        }
+    }
+};
+
+export const deleteTrack = id => {
+    return async (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+
+        try {
+            axios.delete(`/tracks/${id}`, config);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+};
+
+export const togglePublish = id => {
+    return async (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+
+        try {
+            axios.post(`/tracks/${id}/toggle_publish`, config);
+        } catch (e) {
+            console.log(e);
         }
     }
 };

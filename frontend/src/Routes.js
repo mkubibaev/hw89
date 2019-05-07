@@ -21,19 +21,19 @@ const Routes = ({user}) => {
             <Route path="/" exact component={Artists}/>
 
             <ProtectedRoute
-                isAllowed={user}
+                isAllowed={user && user.role === 'user'}
                 path="/artists/new"
                 exact
                 component={NewArtist}
             />
             <ProtectedRoute
-                isAllowed={user}
+                isAllowed={user && user.role === 'user'}
                 path="/albums/new"
                 exact
                 component={NewAlbum}
             />
             <ProtectedRoute
-                isAllowed={user}
+                isAllowed={user && user.role === 'user'}
                 path="/tracks/new"
                 exact
                 component={NewTrack}

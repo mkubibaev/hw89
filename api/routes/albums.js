@@ -2,6 +2,7 @@ const express = require('express');
 const auth = require('../middlewares/auth');
 const upload = require('../middlewares/upload');
 const checkUser = require('../middlewares/checkUser');
+const permit = require('../middlewares/permit');
 
 const Album = require('../models/Album');
 
@@ -68,6 +69,32 @@ router.post('/', [auth, upload.single('image')], async (req, res) => {
 
         await album.save();
         return res.send({message: 'Album added!', album});
+    } catch {
+        return res.sendStatus(400);
+    }
+});
+
+router.delete('/:id', [auth, permit('admin')], async (req, res) => {
+    try {
+        await Album.deleteOne({_id: req.params.id});
+        return res.sendStatus(200);
+    } catch {
+        return res.status(400);
+    }
+});
+
+router.post('/:id/toggle_publish', [auth, permit('admin')], async (req, res) => {
+    try {
+        const album = await Album.findById(req.params.id);
+        
+        if(!album) {
+            return res.sendStatus(404);
+        }
+
+        album.isPublished = !album.isPublished;
+        await album.save();
+
+        return res.send(album);
     } catch {
         return res.sendStatus(400);
     }
