@@ -17,7 +17,7 @@ const UserMenu = ({user, logout}) => {
                         <DropdownItem tag={RouterNavLink} to="/artists/new">
                             Artist
                         </DropdownItem>
-                        <DropdownItem tag={RouterNavLink} to="/album/new">
+                        <DropdownItem tag={RouterNavLink} to="/albums/new">
                             Album
                         </DropdownItem>
                         <DropdownItem tag={RouterNavLink} to="/tracks/new">

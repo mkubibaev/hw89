@@ -1,4 +1,6 @@
 const express = require('express');
+const auth = require('../middlewares/auth');
+const upload = require('../middlewares/upload');
 
 const Album = require('../models/Album');
 
@@ -35,6 +37,28 @@ router.get('/:id', async (req, res) => {
         }
     } catch {
         return res.sendStatus(500);
+    }
+});
+
+router.post('/', [auth, upload.single('image')], async (req, res) => {
+    const albumData = {
+        title: req.body.title,
+        artist: req.body.artist,
+        year: req.body.year,
+        user: req.user._id
+    };
+    
+    if (req.file) {
+        albumData.image = req.file.filename;
+    }
+
+    try {
+        const album = new Album(albumData);
+
+        await album.save();
+        return res.send({message: 'Artist added!', album});
+    } catch {
+        return res.sendStatus(400);
     }
 });
 

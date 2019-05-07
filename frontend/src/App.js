@@ -28,11 +28,11 @@ class App extends Component {
                 <Container className="py-5">
                     <Switch>
                         <Route path="/" exact component={Artists}/>
-                        <Route path="/artists/new" component={NewArtist}/>
+                        <Route path="/artists/new" exact component={NewArtist}/>
                         <Route path="/artists/:id" component={Albums}/>
-                        <Route path="/albums/new" component={NewAlbum}/>
+                        <Route path="/albums/new" exact component={NewAlbum}/>
                         <Route path="/albums/:id" component={Tracks}/>
-                        <Route path="/tracks/new" component={NewTrack}/>
+                        <Route path="/tracks/new" exact component={NewTrack}/>
                         <Route path="/track-history" component={TrackHistory}/>
                         <Route path="/login" component={Login}/>
                         <Route path="/register" component={Register}/>

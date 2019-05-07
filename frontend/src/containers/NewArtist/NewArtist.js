@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import ArtistForm from "../../components/ArtistForm";
+import ArtistForm from "../../components/ArtistForm/ArtistForm";
 import {connect} from "react-redux";
 import {addArtist} from "../../store/actions/artistsActions";
 

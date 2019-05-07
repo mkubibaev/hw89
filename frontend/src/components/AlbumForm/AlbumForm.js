@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {Button, Col, Form, FormGroup} from "reactstrap";
-import FormElement from "./UI/Form/FormElement";
+import FormElement from "../UI/Form/FormElement";
 
 
-class ArtistForm extends Component {
+class AlbumForm extends Component {
     state = {
-        name: '',
-        description: '',
+        artist: '',
+        title: '',
+        year: '',
         image: null
     };
 
@@ -42,24 +43,37 @@ class ArtistForm extends Component {
             <Form onSubmit={this.submitFormHandler}>
 
                 <FormElement
-                    propertyName="name"
-                    title="Artist name:"
+                    propertyName="title"
+                    title="Album title:"
                     type="text" required
                     onChange={this.inputChangeHandler}
                     value={this.state.name}
                 />
 
                 <FormElement
-                    propertyName="description"
-                    title="Artist description:"
-                    type="textarea"
+                    propertyName="artist"
+                    title="Artist:"
+                    type="select" required
                     onChange={this.inputChangeHandler}
-                    value={this.state.description}
+                    value={this.state.artist}
+                >
+                    <option value="">Please select an artist</option>
+                    {this.props.artists.map(artist => (
+                        <option key={artist._id} value={artist._id}>{artist.name}</option>
+                    ))}
+                </FormElement>
+
+                <FormElement
+                    propertyName="year"
+                    title="Year:"
+                    type="text"
+                    onChange={this.inputChangeHandler}
+                    value={this.state.year}
                 />
 
                 <FormElement
                     propertyName="image"
-                    title="Artist photo:"
+                    title="Image:"
                     type="file"
                     onChange={this.fileChangeHandler}
                 />
@@ -74,4 +88,4 @@ class ArtistForm extends Component {
     }
 }
 
-export default ArtistForm;
+export default AlbumForm;
