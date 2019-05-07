@@ -21,10 +21,16 @@ export const fetchAlbumsSuccess = albums => ({type: FETCH_ALBUMS_SUCCESS, albums
 
 export const fetchAlbums = artistId => {
     return async dispatch => {
+        let url = '/albums';
+
+        if (artistId) {
+            url += `?artist=${artistId}`
+        }
+
         dispatch(fetchDataRequest());
 
         try {
-            const response = await axios.get(`/albums?artist=${artistId}`);
+            const response = await axios.get(url);
             dispatch(fetchAlbumsSuccess(response.data));
         } catch (e) {
             dispatch(fetchDataFailure(e));

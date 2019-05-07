@@ -7,7 +7,7 @@ const Album = require('../models/Album');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const criteria = {};
+    const criteria = {isPublished: true};
 
     if (req.query.artist) {
         criteria.artist = req.query.artist;
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const album = await Album.findById(req.params.id);
+        const album = await Album.findOne({_id: req.params.id, isPublished: true});
 
         if (album) {
             return res.send(album);
@@ -56,7 +56,7 @@ router.post('/', [auth, upload.single('image')], async (req, res) => {
         const album = new Album(albumData);
 
         await album.save();
-        return res.send({message: 'Artist added!', album});
+        return res.send({message: 'Album added!', album});
     } catch {
         return res.sendStatus(400);
     }

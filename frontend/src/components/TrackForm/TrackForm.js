@@ -3,27 +3,17 @@ import {Button, Col, Form, FormGroup} from "reactstrap";
 import FormElement from "../UI/Form/FormElement";
 
 
-class AlbumForm extends Component {
+class TrackForm extends Component {
     state = {
-        artist: '',
         title: '',
-        year: '',
-        image: null
+        album: '',
+        duration: ''
     };
 
     submitFormHandler = event => {
         event.preventDefault();
 
-        const formData = new FormData();
-
-        Object.keys(this.state).forEach(key => {
-            if (key) {
-                formData.append(key, this.state[key]);
-            }
-
-        });
-
-        this.props.onSubmit(formData);
+        this.props.onSubmit({...this.state});
     };
 
     inputChangeHandler = event => {
@@ -32,11 +22,6 @@ class AlbumForm extends Component {
         })
     };
 
-    fileChangeHandler = event => {
-        this.setState({
-            [event.target.name]: event.target.files[0]
-        });
-    };
 
     render() {
         return (
@@ -44,38 +29,31 @@ class AlbumForm extends Component {
 
                 <FormElement
                     propertyName="title"
-                    title="Album title:"
+                    title="Track title:"
                     type="text" required
                     onChange={this.inputChangeHandler}
                     value={this.state.title}
                 />
 
                 <FormElement
-                    propertyName="artist"
-                    title="Artist:"
+                    propertyName="album"
+                    title="Album:"
                     type="select" required
                     onChange={this.inputChangeHandler}
-                    value={this.state.artist}
+                    value={this.state.album}
                 >
-                    <option value="">Please select an artist</option>
-                    {this.props.artists.map(artist => (
-                        <option key={artist._id} value={artist._id}>{artist.name}</option>
+                    <option value="">Please select an album</option>
+                    {this.props.albums.map(album => (
+                        <option key={album._id} value={album._id}>{album.title}</option>
                     ))}
                 </FormElement>
 
                 <FormElement
-                    propertyName="year"
-                    title="Year:"
+                    propertyName="duration"
+                    title="Duration:"
                     type="text"
                     onChange={this.inputChangeHandler}
-                    value={this.state.year}
-                />
-
-                <FormElement
-                    propertyName="image"
-                    title="Image:"
-                    type="file"
-                    onChange={this.fileChangeHandler}
+                    value={this.state.duration}
                 />
 
                 <FormGroup row>
@@ -88,4 +66,4 @@ class AlbumForm extends Component {
     }
 }
 
-export default AlbumForm;
+export default TrackForm;
