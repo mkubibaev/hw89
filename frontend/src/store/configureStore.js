@@ -9,6 +9,7 @@ import usersReducer from "./reducers/usersReducer";
 import artistsReducer from "./reducers/artistsReducer";
 import albumsReducer from "./reducers/albumsReducer";
 import tracksReducer from "./reducers/tracksReducer";
+import trackHistoryReducer from "./reducers/trackHistoryReducer";
 
 export const history = createBrowserHistory();
 
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     users: usersReducer,
     artists: artistsReducer,
     albums: albumsReducer,
-    tracks: tracksReducer
+    tracks: tracksReducer,
+    trackHistory: trackHistoryReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

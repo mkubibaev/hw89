@@ -1,5 +1,4 @@
 import {
-    FETCH_ARTIST_SUCCESS,
     FETCH_ARTISTS_SUCCESS,
     FETCH_DATA_FAILURE,
     FETCH_DATA_REQUEST
@@ -7,7 +6,6 @@ import {
 
 const initialState = {
     artists: [],
-    artist: {},
     error: null,
     loading: true
 };
@@ -22,9 +20,6 @@ const artistsReducer = (state = initialState, action) => {
 
         case FETCH_ARTISTS_SUCCESS:
             return {...state, artists: action.artists, loading: false};
-
-        case FETCH_ARTIST_SUCCESS:
-            return {...state, artist: action.artist};
 
         default:
             return state

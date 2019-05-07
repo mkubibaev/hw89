@@ -10,4 +10,5 @@ body {
 
 .nav-link {
   cursor: pointer;
+  text-decoration: none;
 }

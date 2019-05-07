@@ -2,6 +2,8 @@ import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 
 import {fetchTracks} from "../../store/actions/tracksActions";
+import {Badge, ListGroup, ListGroupItem} from "reactstrap";
+import {addTrackHistory} from "../../store/actions/trackHistoryActions";
 
 class Tracks extends Component {
     componentDidMount() {
@@ -13,19 +15,18 @@ class Tracks extends Component {
             this.props.tracks[0]
             ? <Fragment>
                 <h1 className="mb-3">{this.props.tracks[0].album.artist.name} - {this.props.tracks[0].album.title}</h1>
-
-                <ul className="list-group">
+                <ListGroup>
                     {this.props.tracks.map(track => (
-                        <li
+                        <ListGroupItem
                             key={track._id}
-                            className="list-group-item d-flex justify-content-between align-items-center"
+                            className="justify-content-between"
                             onClick={() => this.props.addTrackHistory(track._id)}
                         >
-                            {track.number}. {track.title}
-                            <span className="badge badge-primary badge-pill">{track.duration}</span>
-                        </li>
+                            <span>{track.number}. {track.title}</span>
+                            <Badge>{track.duration}</Badge>
+                        </ListGroupItem>
                     ))}
-                </ul>
+                </ListGroup>
             </Fragment>
             : null
         );
@@ -39,7 +40,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchTracks: albumId => dispatch(fetchTracks(albumId))
+    fetchTracks: albumId => dispatch(fetchTracks(albumId)),
+    addTrackHistory: trackId => dispatch(addTrackHistory(trackId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tracks);
