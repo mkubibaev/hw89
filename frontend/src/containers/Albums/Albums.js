@@ -23,8 +23,9 @@ class Albums extends Component {
                             key={album._id}
                             title={album.title}
                             image={album.image}
-                            routePath={`/albums/${album._id}`}
+                            isPublished={album.isPublished}
                             year={album.year}
+                            routePath={`/albums/${album._id}`}
                         />
                     ))}
                 </Row>

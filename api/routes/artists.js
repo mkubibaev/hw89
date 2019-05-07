@@ -1,23 +1,38 @@
 const express = require('express');
+
 const auth = require('../middlewares/auth');
+const permit = require('../middlewares/permit');
 const upload = require('../middlewares/upload');
+const checkUser = require('../middlewares/checkUser');
 
 const Artist = require('../models/Artist');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', checkUser, async (req, res) => {
+    const criteria = {isPublished: true};
+
+    if (req.user && req.user.role === 'admin') {
+        delete criteria.isPublished
+    }
+
     try {
-        const artists = await Artist.find({isPublished: true});
+        const artists = await Artist.find(criteria);
         return res.send(artists);
     } catch {
         return res.sendStatus(500);
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', checkUser, async (req, res) => {
+    const criteria = {isPublished: true, _id: req.params.id};
+
+    if (req.user && req.user.role === 'admin') {
+        delete criteria.isPublished
+    }
+
     try {
-        const artist = await Artist.findOne({isPublished: true, _id: req.params.id});
+        const artist = await Artist.findOne(criteria);
 
         if (artist) {
             return res.send(artist);
@@ -36,7 +51,7 @@ router.post('/', [auth, upload.single('image')], async (req, res) => {
         description: req.body.description,
         user: req.user._id
     };
-    
+
     if (req.file) {
         artistData.image = req.file.filename;
     }
@@ -49,6 +64,17 @@ router.post('/', [auth, upload.single('image')], async (req, res) => {
     } catch {
         return res.sendStatus(400);
     }
+});
+
+router.post('/:id/publish', [auth, permit('admin')], async (req, res) => {
+    const artist = await Artist.findById(req.params.id)
+
+    if(!artist) {
+        return res.sendStatus(404);
+    }
+
+    artist.isPublished = true;
+    return res.send(artist);
 });
 
 module.exports = router;

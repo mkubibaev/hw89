@@ -21,7 +21,9 @@ class Artists extends Component {
                             key={artist._id}
                             title={artist.name}
                             image={artist.image}
+                            isPublished={artist.isPublished}
                             routePath={`/artists/${artist._id}`}
+                            user={this.props.user}
                         />
                     ))}
                 </Row>
@@ -33,7 +35,8 @@ class Artists extends Component {
 const mapStateToProps = state => ({
     error: state.artists.error,
     loading: state.artists.loading,
-    artists: state.artists.artists
+    artists: state.artists.artists,
+    user: state.users.user
 });
 
 const mapDispatchToProps = dispatch => ({

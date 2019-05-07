@@ -1,7 +1,7 @@
 import React from 'react';
 import {apiURL} from "../../../constants";
 import {NavLink as RouterNavLink} from "react-router-dom";
-import {Card, CardBody, CardImg, CardTitle, Col} from "reactstrap";
+import {Button, Card, CardBody, CardFooter, CardImg, CardTitle, Col} from "reactstrap";
 
 const Box = props => {
     return (
@@ -18,6 +18,16 @@ const Box = props => {
                         {props.title}
                     </CardTitle>
                 </CardBody>
+                {props.user && props.user.role === 'admin'
+                    ? <CardFooter className="d-flex justify-content-between">
+                        {props.isPublished === false
+                            ? <Button color="success">Publish</Button>
+                            : null
+                        }
+                        <Button color="danger">Delete</Button>
+                    </CardFooter>
+                    : null
+                }
             </Card>
         </Col>
     );

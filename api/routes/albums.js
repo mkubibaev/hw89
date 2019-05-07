@@ -1,13 +1,18 @@
 const express = require('express');
 const auth = require('../middlewares/auth');
 const upload = require('../middlewares/upload');
+const checkUser = require('../middlewares/checkUser');
 
 const Album = require('../models/Album');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', checkUser, async (req, res) => {
     const criteria = {isPublished: true};
+
+    if (req.user && req.user.role === 'admin') {
+        delete criteria.isPublished;
+    }
 
     if (req.query.artist) {
         criteria.artist = req.query.artist;
@@ -26,9 +31,15 @@ router.get('/', async (req, res) => {
 
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', checkUser, async (req, res) => {
+    const criteria = {isPublished: true, _id: req.params.id};
+
+    if (req.user && req.user.role === 'admin') {
+        delete criteria.isPublished;
+    }
+
     try {
-        const album = await Album.findOne({_id: req.params.id, isPublished: true});
+        const album = await Album.findOne(criteria);
 
         if (album) {
             return res.send(album);
