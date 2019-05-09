@@ -56,26 +56,28 @@ export const addAlbum = albumData => {
     }
 };
 
-export const deleteAlbum = id => {
+export const deleteAlbum = (albumId, artistId)  => {
     return async (dispatch, getState) => {
         const token = getState().users.user.token;
         const config = {headers: {'Authorization': token}};
 
         try {
-            axios.delete(`/albums/${id}`, config);
+            await axios.delete(`/albums/${albumId}`, config);
+            dispatch(fetchAlbums(artistId));
         } catch (e) {
             console.log(e);
         }
     }
 };
 
-export const togglePublish = id => {
+export const togglePublish = (albumId, artistId) => {
     return async (dispatch, getState) => {
         const token = getState().users.user.token;
         const config = {headers: {'Authorization': token}};
 
         try {
-            axios.post(`/albums/${id}/toggle_publish`, config);
+            await axios.post(`/albums/${albumId}/toggle_publish`, config);
+            dispatch(fetchAlbums(artistId));
         } catch (e) {
             console.log(e);
         }

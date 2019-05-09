@@ -12,14 +12,12 @@ class Tracks extends Component {
         this.props.fetchTracks(this.props.match.params.id);
     }
 
-    handleDelete = async id => {
-        await this.props.deleteTrack(id);
-        this.props.fetchTracks(this.props.match.params.id);
+    handleDelete = trackId => {
+        this.props.deleteTrack(trackId, this.props.match.params.id);
     };
 
-    handleTogglePublish = async id => {
-        await this.props.togglePublish(id);
-        this.props.fetchTracks(this.props.match.params.id);
+    handleTogglePublish = trackId => {
+        this.props.togglePublish(trackId, this.props.match.params.id);
     };
 
     render() {
@@ -58,8 +56,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     fetchTracks: albumId => dispatch(fetchTracks(albumId)),
     addTrackHistory: trackId => dispatch(addTrackHistory(trackId)),
-    deleteTrack: id => dispatch(deleteTrack(id)),
-    togglePublish: id => dispatch(togglePublish(id))
+    deleteTrack: (trackId, albumId) => dispatch(deleteTrack(trackId, albumId)),
+    togglePublish: (trackId, albumId) => dispatch(togglePublish(trackId, albumId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tracks);

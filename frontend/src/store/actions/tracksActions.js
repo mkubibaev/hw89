@@ -49,26 +49,28 @@ export const addTrack = trackData => {
     }
 };
 
-export const deleteTrack = id => {
+export const deleteTrack = (trackId, albumId) => {
     return async (dispatch, getState) => {
         const token = getState().users.user.token;
         const config = {headers: {'Authorization': token}};
 
         try {
-            axios.delete(`/tracks/${id}`, config);
+            await axios.delete(`/tracks/${trackId}`, config);
+            dispatch(fetchTracks(albumId));
         } catch (e) {
             console.log(e);
         }
     }
 };
 
-export const togglePublish = id => {
+export const togglePublish = (trackId, albumId) => {
     return async (dispatch, getState) => {
         const token = getState().users.user.token;
         const config = {headers: {'Authorization': token}};
 
         try {
-            axios.post(`/tracks/${id}/toggle_publish`, config);
+            await axios.post(`/tracks/${trackId}/toggle_publish`, config);
+            dispatch(fetchTracks(albumId));
         } catch (e) {
             console.log(e);
         }

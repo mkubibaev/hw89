@@ -13,14 +13,12 @@ class Albums extends Component {
         this.props.fetchAlbums(this.props.match.params.id);
     }
 
-    handleDelete = async id => {
-        await this.props.deleteAlbum(id);
-        this.props.fetchAlbums(this.props.match.params.id);
+    handleDelete = albumId => {
+        this.props.deleteAlbum(albumId, this.props.match.params.id);
     };
 
-    handleTogglePublish = async id => {
-        await this.props.togglePublish(id);
-        this.props.fetchAlbums(this.props.match.params.id);
+    handleTogglePublish = albumId => {
+        this.props.togglePublish(albumId, this.props.match.params.id);
     };
 
     render() {
@@ -57,8 +55,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchAlbums: artistId => dispatch(fetchAlbums(artistId)),
-    deleteAlbum: id => dispatch(deleteAlbum(id)),
-    togglePublish: id => dispatch(togglePublish(id))
+    deleteAlbum: (albumId, artistId) => dispatch(deleteAlbum(albumId, artistId)),
+    togglePublish: (albumId, artistId) => dispatch(togglePublish(albumId, artistId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Albums);
