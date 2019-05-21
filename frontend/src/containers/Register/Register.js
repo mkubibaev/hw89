@@ -4,12 +4,15 @@ import {Alert, Button, Col, Form, FormGroup} from "reactstrap";
 
 import {registerUser} from "../../store/actions/usersActions";
 import FormElement from "../../components/UI/Form/FormElement";
+import FacebookLogin from "../../components/FacebookLogin/FacebookLogin";
 
 
 class Register extends Component {
     state = {
         username: '',
         password: '',
+        displayName: '',
+        avatarImage: ''
     };
 
     inputChangeHandler = event => {
@@ -42,6 +45,10 @@ class Register extends Component {
                     </Alert>
                 )}
                 <Form onSubmit={this.submitFormHandler}>
+                    <FormGroup>
+                        <FacebookLogin/>
+                    </FormGroup>
+
                     <FormElement
                         propertyName="username"
                         title="Username"
@@ -54,6 +61,16 @@ class Register extends Component {
                     />
 
                     <FormElement
+                        propertyName="displayName"
+                        title="Full name"
+                        type="text"
+                        value={this.state.displayName}
+                        onChange={this.inputChangeHandler}
+                        error={this.getFieldHasError('displayName')}
+                        placeholder="Your full name"
+                    />
+
+                    <FormElement
                         propertyName="password"
                         title="Password"
                         type="password"
@@ -62,6 +79,16 @@ class Register extends Component {
                         error={this.getFieldHasError('password')}
                         placeholder="Enter new password"
                         autoComplete="new-password"
+                    />
+
+                    <FormElement
+                        propertyName="avatarImage"
+                        title="Avatar image"
+                        type="text"
+                        value={this.state.avatarImage}
+                        onChange={this.inputChangeHandler}
+                        error={this.getFieldHasError('avatarImage')}
+                        placeholder="avatar image link"
                     />
 
                     <FormGroup row>

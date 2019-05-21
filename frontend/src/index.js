@@ -5,6 +5,7 @@ import {ConnectedRouter} from "connected-react-router";
 import * as serviceWorker from './serviceWorker';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-notifications/lib/notifications.css';
 import './index.css';
 
 import store, {history} from './store/configureStore';

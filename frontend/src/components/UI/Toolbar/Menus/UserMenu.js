@@ -5,8 +5,12 @@ import {NavLink as RouterNavLink} from "react-router-dom";
 const UserMenu = ({user, logout}) => {
     return (
         <Nav>
-            <NavItem>
-                <span className="nav-link">Hello, {user.username}</span>
+            <NavItem className="mr-4">
+                <span className="mr-2 text-light">Hello, {user.displayName}</span>
+                {user.avatarImage
+                    ? <img src={user.avatarImage} alt="" className="avatar-image"/>
+                    : null
+                }
             </NavItem>
             <NavItem>
                 <UncontrolledDropdown>

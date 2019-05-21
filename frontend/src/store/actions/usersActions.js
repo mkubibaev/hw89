@@ -1,5 +1,7 @@
 import axios from '../../axios-api';
 import {push} from 'connected-react-router';
+import {NotificationManager} from "react-notifications";
+
 import {
     LOGIN_USER_FAILURE,
     LOGIN_USER_SUCCESS,
@@ -41,6 +43,7 @@ export const loginUser = userData => {
             const response = await axios.post('/users/sessions', userData);
 
             dispatch(loginUserSuccess(response.data.user));
+            NotificationManager.success('Logged in via Facebook');
             dispatch(push('/'));
         } catch (error) {
             if (error.response && error.response.data) {
@@ -64,5 +67,20 @@ export const logoutUser = () => {
         } catch {
             alert('Could not logout!');
         }
+    }
+};
+
+export const facebookLogin = userData => {
+    return dispatch => {
+        return axios.post('/users/facebookLogin', userData).then(
+            response => {
+                dispatch(loginUserSuccess(response.data.user));
+                NotificationManager.success('Logged in via Facebook');
+                dispatch(push('/'));
+            },
+            () => {
+                dispatch(loginUserFailure('Login via Facebook failed'));
+            }
+        )
     }
 };

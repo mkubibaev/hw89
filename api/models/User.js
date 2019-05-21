@@ -21,20 +21,25 @@ const UserSchema = new Schema({
             message: 'This user is already registered'
         }
     },
+    displayName: {
+        type: String,
+        required: true,
+    },
+    avatarImage: String,
     password: {
         type: String,
         required: true,
     },
     role: {
         type: String,
-        required: true,
-        default: 'user',
-        enum: ['user', 'admin']
+        enum: ['user', 'admin'],
+        default: 'user'
     },
     token: {
         type: String,
         required: true,
-    }
+    },
+    facebookId: String
 });
 
 UserSchema.methods.checkPassword = function(password) {

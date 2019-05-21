@@ -17,9 +17,9 @@ const run = async () => {
     }
 
     const users = await User.create(
-        {username: 'lina', password: '123', role: 'user', token: 'zxcvb'},
-        {username: 'putin', password: '123', role: 'user', token: 'qwerty'},
-        {username: 'admin', password: '123', role: 'admin', token: 'asdfg'}
+        {username: 'lina', displayName: 'Lina Lina', password: '123', role: 'user', token: 'zxcvb'},
+        {username: 'putin', displayName: 'V.V. Putin', password: '123', role: 'user', token: 'qwerty'},
+        {username: 'admin', displayName: 'Administrator', password: '123', role: 'admin', token: 'asdfg'}
     );
 
     const artists = await Artist.create(
